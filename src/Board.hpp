@@ -12,4 +12,5 @@ public:
     void printBoard();
     bool isGameWon();
     bool isBoardFull();
+    int getFirstAvailablePosition();
 };

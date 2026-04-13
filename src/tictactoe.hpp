@@ -12,9 +12,10 @@ class Game {
     void changePlayer();
     bool keepPlaying();
     bool weHaveAWinner();
-    int getPosition();
     bool getPlayAgain();
     bool gameEnded();
+    void initGame();
+    int getPlayerOption();
 public:
     Game();
     ~Game();

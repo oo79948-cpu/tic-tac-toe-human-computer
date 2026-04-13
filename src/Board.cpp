@@ -44,6 +44,17 @@ bool Board::isBoardFull() {
     return true;
 }
 
+int Board::getFirstAvailablePosition() {
+    if (isBoardFull()) {
+        throw std::invalid_argument("Board is already full");
+    }
+    for (int i = 1; i <= grid.size(); ++i) {
+        if (canMakeMove(i)) {
+            return i;
+        }
+    }
+}
+
 bool Board::isGameWon() {
     //horizontal
     if (grid.at(0) == grid.at(1) && grid.at(1) == grid.at(2)) {

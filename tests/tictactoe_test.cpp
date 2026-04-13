@@ -267,8 +267,8 @@ TEST_CASE( "board is full by players making moves" ) {
 TEST_CASE("players info for Player X and Player O") {
     Player playerX(nullptr, "X");
     Player playerO(nullptr, "O");
-    REQUIRE( playerX.info() == "Player X");
-    REQUIRE( playerO.info() == "Player O");
+    REQUIRE( playerX.info() == "Player X (Human)");
+    REQUIRE( playerO.info() == "Player O (Human)");
 }
 
 TEST_CASE("player's win and tie increments") {

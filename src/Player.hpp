@@ -8,6 +8,9 @@ class Player {
     int winCount;
     int tieCount;
     Board* board;
+    bool isComputer;
+    int getPositionHuman();
+    int getPositionComputer();
 public:
     Player(Board* board, std::string token);
     ~Player();
@@ -15,4 +18,6 @@ public:
     int win();
     int tie();
     bool makeMove(int position);
+    int getPosition();
+    void setIsComputer(bool isComputer);
 };

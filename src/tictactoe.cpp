@@ -12,6 +12,42 @@ Game::Game() {
     currentPlayer = playerX;
     winner = nullptr;
     std::cout << "Welcome to Tic-Tac-Toe!" << std::endl;
+    initGame();
+}
+
+void Game::initGame() {
+    std::cout << "\nWhat kind of game would you like to play?" << std::endl;
+    std::cout << "1. Human vs. Human" << std::endl;
+    std::cout << "2. Human vs. Computer" << std::endl;
+    std::cout << "3. Computer vs. Human" << std::endl;
+    int option = -1;
+    bool isOptionValid = false;
+    do {
+        std::cout << "\nWhat is your selection? ";
+        option = getPlayerOption();
+        isOptionValid = option == 1 || option == 2 || option == 3;
+        if (!isOptionValid) {
+            std::cout << "Invalid option!" << std::endl;
+        }
+    } while (!isOptionValid) ;
+
+    if (option == 2) {
+        playerO->setIsComputer(true);
+    } else if (option == 3) {
+        playerX->setIsComputer(true);
+    }
+    std::cout << "Great! " << currentPlayer->info() << " goes first." << std::endl;
+}
+
+int Game::getPlayerOption() {
+    int userInput;
+    std::cin >> userInput;
+    if (std::cin.fail()) {
+        userInput = -1;
+    }
+    std::cin.clear(); // Clear the error flag
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the buffer
+    return userInput;
 }
 
 Game::~Game() {
@@ -71,22 +107,12 @@ bool Game::weHaveAWinner() {
     return board.isGameWon();
 }
 
-int Game::getPosition() {
-    int userInput;
-    std::cin >> userInput;
-    if (std::cin.fail()) {
-        userInput = -1;
-    }
-    std::cin.clear(); // Clear the error flag
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear the buffer
-    return userInput;
-}
 
 void Game::playGame() {
     do {
         board.printBoard();
         std::cout << std::endl << currentPlayer->info() << ", what is your move? ";
-        int position = getPosition();
+        int position = currentPlayer->getPosition();
         if (!currentPlayer->makeMove(position)) {
             std::cout << "That is not a valid move! Try again." << std::endl;
         } else {
