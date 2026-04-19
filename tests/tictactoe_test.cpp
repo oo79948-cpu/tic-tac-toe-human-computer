@@ -144,7 +144,7 @@ TEST_CASE( "board is full" ) {
 
 TEST_CASE( "game is won horizontally by a player making move - first row" ) {
     Board board;
-    Player player(&board, "X");
+    HumanPlayer player(&board, "X");
     REQUIRE( board.isGameWon() == false );
     player.makeMove(1);
     REQUIRE( board.isGameWon() == false );
@@ -156,7 +156,7 @@ TEST_CASE( "game is won horizontally by a player making move - first row" ) {
 
 TEST_CASE( "game is won horizontally by a player making move - second row" ) {
     Board board;
-    Player player(&board, "X");
+    HumanPlayer player(&board, "X");
     REQUIRE( board.isGameWon() == false );
     player.makeMove(4);
     REQUIRE( board.isGameWon() == false );
@@ -168,7 +168,7 @@ TEST_CASE( "game is won horizontally by a player making move - second row" ) {
 
 TEST_CASE( "game is won horizontally by a player making move - third row" ) {
     Board board;
-    Player player(&board, "O");
+    HumanPlayer player(&board, "O");
     REQUIRE( board.isGameWon() == false );
     player.makeMove(7);
     REQUIRE( board.isGameWon() == false );
@@ -180,7 +180,7 @@ TEST_CASE( "game is won horizontally by a player making move - third row" ) {
 
 TEST_CASE( "game is won horizontally by a player making move - first column" ) {
     Board board;
-    Player player(&board, "O");
+    HumanPlayer player(&board, "O");
     REQUIRE( board.isGameWon() == false );
     player.makeMove(1);
     REQUIRE( board.isGameWon() == false );
@@ -192,7 +192,7 @@ TEST_CASE( "game is won horizontally by a player making move - first column" ) {
 
 TEST_CASE( "game is won horizontally by a player making move - second column" ) {
     Board board;
-    Player player(&board, "O");
+    HumanPlayer player(&board, "O");
     REQUIRE( board.isGameWon() == false );
     player.makeMove(2);
     REQUIRE( board.isGameWon() == false );
@@ -204,7 +204,7 @@ TEST_CASE( "game is won horizontally by a player making move - second column" ) 
 
 TEST_CASE( "game is won horizontally by a player making move - third column" ) {
     Board board;
-    Player player(&board, "X");
+    HumanPlayer player(&board, "X");
     REQUIRE( board.isGameWon() == false );
     player.makeMove(3);
     REQUIRE( board.isGameWon() == false );
@@ -216,7 +216,7 @@ TEST_CASE( "game is won horizontally by a player making move - third column" ) {
 
 TEST_CASE( "game is won diagonally by a player making move - 1" ) {
     Board board;
-    Player player(&board, "X");
+    HumanPlayer player(&board, "X");
     REQUIRE( board.isGameWon() == false );
     player.makeMove(1);
     REQUIRE( board.isGameWon() == false );
@@ -228,7 +228,7 @@ TEST_CASE( "game is won diagonally by a player making move - 1" ) {
 
 TEST_CASE( "game is won diagonally by a player making mov - 2" ) {
     Board board;
-    Player player(&board, "0");
+    HumanPlayer player(&board, "0");
     REQUIRE( board.isGameWon() == false );
     player.makeMove(3);
     REQUIRE( board.isGameWon() == false );
@@ -241,8 +241,8 @@ TEST_CASE( "game is won diagonally by a player making mov - 2" ) {
 
 TEST_CASE( "board is full by players making moves" ) {
     Board board;
-    Player playerO(&board, "O");
-    Player playerX(&board, "X");
+    HumanPlayer playerO(&board, "O");
+    HumanPlayer playerX(&board, "X");
     REQUIRE( board.isBoardFull() == false );
     playerO.makeMove(1);
     REQUIRE( board.isBoardFull() == false );
@@ -265,15 +265,15 @@ TEST_CASE( "board is full by players making moves" ) {
 }
 
 TEST_CASE("players info for Player X and Player O") {
-    Player playerX(nullptr, "X");
-    Player playerO(nullptr, "O");
+    HumanPlayer playerX(nullptr, "X");
+    HumanPlayer playerO(nullptr, "O");
     REQUIRE( playerX.info() == "Player X (Human)");
     REQUIRE( playerO.info() == "Player O (Human)");
 }
 
 TEST_CASE("player's win and tie increments") {
-    Player playerX(nullptr, "X");
-    Player playerO(nullptr, "O");
+    HumanPlayer playerX(nullptr, "X");
+    HumanPlayer playerO(nullptr, "O");
     playerX.win();
     playerX.win();
     playerX.win();

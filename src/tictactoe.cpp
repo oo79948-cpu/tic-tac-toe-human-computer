@@ -18,11 +18,6 @@ void Game::restartGame() {
 }
 
 void Game::initGame() {
-    playerX = new Player(&board,"X");
-    playerO = new Player(&board,"O");
-    currentPlayer = playerX;
-    winner = nullptr;
-
     std::cout << "\nWhat kind of game would you like to play?" << std::endl;
     std::cout << "1. Human vs. Human" << std::endl;
     std::cout << "2. Human vs. Computer" << std::endl;
@@ -38,11 +33,19 @@ void Game::initGame() {
         }
     } while (!isOptionValid) ;
 
-    if (option == 2) {
-        playerO->setIsComputer(true);
-    } else if (option == 3) {
-        playerX->setIsComputer(true);
+    if (option == 1) {
+        playerX = new HumanPlayer(&board,"X");
+        playerO = new HumanPlayer(&board,"O");
+    } else if (option == 2) {
+        playerX = new HumanPlayer(&board,"X");
+        playerO = new ComputerPlayer(&board,"O");
     }
+    else if (option == 3) {
+        playerX = new ComputerPlayer(&board,"X");
+        playerO = new HumanPlayer(&board,"O");
+    }
+    currentPlayer = playerX;
+    winner = nullptr;
     std::cout << "Great! " << currentPlayer->info() << " goes first." << std::endl;
 }
 

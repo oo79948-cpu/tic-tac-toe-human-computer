@@ -4,20 +4,33 @@
 #include "Board.hpp"
 
 class Player {
+protected:
     std::string token;
     int winCount;
     int tieCount;
     Board* board;
-    bool isComputer;
-    int getPositionHuman();
-    int getPositionComputer();
 public:
     Player(Board* board, std::string token);
-    ~Player();
-    std::string info();
+    virtual ~Player() {}
+    virtual std::string info() = 0;
     int win();
     int tie();
     bool makeMove(int position);
-    int getPosition();
-    void setIsComputer(bool isComputer);
+    virtual int getPosition() = 0;
+};
+
+class HumanPlayer : public Player {
+public:
+    HumanPlayer(Board* board, std::string token) : Player(board,token) {}
+    int getPosition() override;
+    std::string info() override;
+    ~HumanPlayer() override;
+};
+
+class ComputerPlayer : public Player {
+public:
+    ComputerPlayer(Board* board, std::string token) : Player(board,token) {}
+    int getPosition() override;
+    std::string info() override;
+    ~ComputerPlayer() override;
 };
