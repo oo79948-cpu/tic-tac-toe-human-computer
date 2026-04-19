@@ -7,15 +7,22 @@
 #include "Board.hpp"
 
 Game::Game() {
-    playerX = new Player(&board,"X");
-    playerO = new Player(&board,"O");
-    currentPlayer = playerX;
-    winner = nullptr;
     std::cout << "Welcome to Tic-Tac-Toe!" << std::endl;
     initGame();
 }
 
+void Game::restartGame() {
+    delete playerX;
+    delete playerO;
+    initGame();
+}
+
 void Game::initGame() {
+    playerX = new Player(&board,"X");
+    playerO = new Player(&board,"O");
+    currentPlayer = playerX;
+    winner = nullptr;
+
     std::cout << "\nWhat kind of game would you like to play?" << std::endl;
     std::cout << "1. Human vs. Human" << std::endl;
     std::cout << "2. Human vs. Computer" << std::endl;
@@ -94,6 +101,11 @@ bool Game::getPlayAgain() {
         std::cin >> response;
         if (response == "yes") {
             board.initBoard();
+            std::cout << "Do you want to change the game mode? (respond yes if you accept): ";
+            std::cin >> response;
+            if (response == "yes") {
+                restartGame();
+            }
             return true;
         }
         if (response == "no") {

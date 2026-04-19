@@ -14,6 +14,7 @@ class Game {
     bool weHaveAWinner();
     bool getPlayAgain();
     bool gameEnded();
+    void restartGame();
     void initGame();
     int getPlayerOption();
 public:
