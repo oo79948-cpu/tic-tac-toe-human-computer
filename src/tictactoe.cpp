@@ -23,6 +23,8 @@ void Game::initGame() {
     std::cout << "2. Human vs. Computer" << std::endl;
     std::cout << "3. Computer vs. Human" << std::endl;
     int option = -1;
+
+
     bool isOptionValid = false;
     do {
         std::cout << "\nWhat is your selection? ";
@@ -32,6 +34,16 @@ void Game::initGame() {
             std::cout << "Invalid option!" << std::endl;
         }
     } while (!isOptionValid) ;
+
+    std::string response;
+    std::cout << "Set trap? (yes or no): ";
+    std::cin >> response;
+    if (response == "yes") {
+        board.setTrap();
+    } else {
+        board.resetTrap();
+    }
+
 
     if (option == 1) {
         playerX = new HumanPlayer(&board,"X");
@@ -89,6 +101,7 @@ bool Game::gameEnded() {
         return true;
     }
     if (board.isBoardFull()) {
+        board.printBoard();
         std::cout << std::endl << "Tie!!!" << std::endl;
         playerO->tie();
         playerX->tie();
@@ -128,7 +141,11 @@ void Game::playGame() {
         board.printBoard();
         std::cout << std::endl << currentPlayer->info() << ", what is your move? ";
         int position = currentPlayer->getPosition();
-        if (!currentPlayer->makeMove(position)) {
+        if (board.isTrap(position)) {
+            std::cout << "Oh no! You set off the trap! " << currentPlayer->info() << " looses their turn.";
+            changePlayer();
+        }
+        else if (!currentPlayer->makeMove(position)) {
             std::cout << "That is not a valid move! Try again." << std::endl;
         } else {
             if (weHaveAWinner()) {
