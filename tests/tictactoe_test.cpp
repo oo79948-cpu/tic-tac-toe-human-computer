@@ -292,3 +292,68 @@ TEST_CASE("player's win and tie increments") {
     REQUIRE( xTie == 2);
     REQUIRE( oTie == 2);
 }
+
+TEST_CASE("Computer player pics next available position") {
+    Board board;
+    HumanPlayer playerO(&board, "O");
+    ComputerPlayer playerX(&board, "X");
+    REQUIRE( board.isBoardFull() == false );
+    playerO.makeMove(1);
+    REQUIRE( board.isBoardFull() == false );
+    int position = playerX.getPosition();
+    REQUIRE( position == 2);
+    playerX.makeMove(position);
+    REQUIRE( board.isBoardFull() == false );
+    playerO.makeMove(3);
+    REQUIRE( board.isBoardFull() == false );
+    position = playerX.getPosition();
+    REQUIRE( position == 4);
+    playerX.makeMove(position);
+    REQUIRE( board.isBoardFull() == false );
+    position = playerX.getPosition();
+    REQUIRE( position == 5);
+    playerX.makeMove(position);
+    REQUIRE( board.isBoardFull() == false );
+    playerO.makeMove(6);
+    REQUIRE( board.isBoardFull() == false );
+    position = playerX.getPosition();
+    REQUIRE( position == 7);
+    playerX.makeMove(position);
+    REQUIRE( board.isBoardFull() == false );
+    playerO.makeMove(8);
+    REQUIRE( board.isBoardFull() == false );
+    position = playerX.getPosition();
+    REQUIRE( position == 9);
+    playerX.makeMove(position);
+    REQUIRE( board.isBoardFull() == true );
+}
+
+TEST_CASE("Test trap is set and can be set off") {
+    Board board;
+
+    bool trapFound = false;
+    int trapPosition = -1;
+    for (int x = 1; x < 9; x++) {
+        if (board.isTrap(x)) {
+            trapFound = true;
+            trapPosition = x;
+            break;
+        }
+    }
+    REQUIRE( trapFound == false );
+
+    board.setTrap();
+    for (int x = 1; x < 9; x++) {
+        if (board.isTrap(x)) {
+            trapFound = true;
+            trapPosition = x;
+            break;
+        }
+    }
+    REQUIRE( trapFound == true );
+    REQUIRE(board.isTrap(trapPosition) == true);
+    REQUIRE(board.canMakeMove(trapPosition) == true);
+    board.setOffTrap();
+    REQUIRE(board.isTrap(trapPosition) == true);
+    REQUIRE(board.canMakeMove(trapPosition) == false);
+}

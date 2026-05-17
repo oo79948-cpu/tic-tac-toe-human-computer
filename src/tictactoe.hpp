@@ -17,6 +17,7 @@ class Game {
     void restartGame();
     void initGame();
     int getPlayerOption();
+    bool getYesNoAnswer(std::string question);
 public:
     Game();
     ~Game();

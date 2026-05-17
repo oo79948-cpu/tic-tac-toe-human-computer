@@ -22,11 +22,18 @@ void Board::initBoard() {
 }
 
 void Board::setTrap() {
+    srand(static_cast<unsigned int>(time(nullptr)));
     trapCellPosition = (rand() % 9) + 1;
 }
 
 void Board::resetTrap() {
     trapCellPosition = -1;
+}
+
+void Board::setOffTrap() {
+    if (trapCellPosition != -1) {
+        grid[trapCellPosition-1] = "T";
+    }
 }
 
 bool Board::isTrap(int position) {
@@ -47,13 +54,13 @@ bool Board::canMakeMove(int position) {
         return false;
     }
     int index = position - 1;
-    return grid.at(index) != "X" && grid.at(index) != "O" && !isTrap(position);
+    return grid.at(index) != "X" && grid.at(index) != "O" &&  grid.at(index) != "T";
 }
 
 bool Board::isBoardFull() {
     int position = 1;
     for (auto element: grid) {
-        if (element != "X" && element != "O" && position != trapCellPosition) {
+        if (element != "X" && element != "O" &&  element != "T") {
             return false;
         }
         position++;
@@ -66,7 +73,7 @@ int Board::getFirstAvailablePosition() {
         throw std::invalid_argument("Board is already full");
     }
     for (int i = 1; i <= grid.size(); ++i) {
-        if (canMakeMove(i) || isTrap(i)) {
+        if (canMakeMove(i)) {
             return i;
         }
     }

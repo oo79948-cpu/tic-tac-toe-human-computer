@@ -11,6 +11,21 @@ Game::Game() {
     initGame();
 }
 
+bool Game::getYesNoAnswer(std::string question) {
+    bool isOptionValid = false;
+    do {
+        std::string response;
+        std::cout << "\n" + question + " (yes or no): ";
+        std::cin >> response;
+        isOptionValid = response == "yes" || response == "no";
+        if (!isOptionValid) {
+            std::cout << "Invalid option!" << std::endl;
+        } else {
+            return response == "yes";
+        }
+    } while (true);
+}
+
 void Game::restartGame() {
     delete playerX;
     delete playerO;
@@ -35,10 +50,7 @@ void Game::initGame() {
         }
     } while (!isOptionValid) ;
 
-    std::string response;
-    std::cout << "Set trap? (yes or no): ";
-    std::cin >> response;
-    if (response == "yes") {
+    if (getYesNoAnswer("Set trap?")) {
         board.setTrap();
     } else {
         board.resetTrap();
@@ -111,43 +123,35 @@ bool Game::gameEnded() {
 }
 
 bool Game::getPlayAgain() {
-    while (true) {
-        std::string response;
-        std::cout << "Play again? (yes or no): ";
-        std::cin >> response;
-        if (response == "yes") {
-            board.initBoard();
-            std::cout << "Do you want to change the game mode? (respond yes if you accept): ";
-            std::cin >> response;
-            if (response == "yes") {
-                restartGame();
-            }
-            return true;
+    if (getYesNoAnswer("Play again?")) {
+        board.initBoard();
+        if (getYesNoAnswer("Do you want to change the game mode?")) {
+            restartGame();
         }
-        if (response == "no") {
-            return false;
-        }
-        std::cout << "That is not a valid entry!" << std::endl;
+        return true;
     }
+    return false;
 }
 
 bool Game::weHaveAWinner() {
     return board.isGameWon();
 }
 
-
 void Game::playGame() {
     do {
         board.printBoard();
         std::cout << std::endl << currentPlayer->info() << ", what is your move? ";
         int position = currentPlayer->getPosition();
-        if (board.isTrap(position)) {
+
+        if (!currentPlayer->makeMove(position)) {
+            std::cout << "That is not a valid move! Try again." << std::endl;
+        } else if (board.isTrap(position)) {
             std::cout << "Oh no! You set off the trap! " << currentPlayer->info() << " looses their turn.";
+            board.setOffTrap();
             changePlayer();
         }
-        else if (!currentPlayer->makeMove(position)) {
-            std::cout << "That is not a valid move! Try again." << std::endl;
-        } else {
+
+        else {
             if (weHaveAWinner()) {
                 winner = currentPlayer;
             }

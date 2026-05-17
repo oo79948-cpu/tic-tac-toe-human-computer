@@ -17,4 +17,5 @@ public:
     void setTrap();
     bool isTrap(int position);
     void resetTrap();
+    void setOffTrap();
 };
